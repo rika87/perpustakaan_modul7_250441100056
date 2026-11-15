@@ -1,5 +1,5 @@
 @extends('auth.auth')
-@section('judul', 'Masuk ke Akun')
+@section('judul', 'Masuk ke Akun - 250441100056')
 
 @section('content')
     @if (session('status'))
