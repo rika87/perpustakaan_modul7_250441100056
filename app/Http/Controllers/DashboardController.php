@@ -4,14 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Models\Buku;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    public function index(): View
+    public function index(): View|RedirectResponse
     {
-        return view('dashboard');
+        $user = auth()->user();
+
+        if ($user->hasRole('admin')) {
+            return redirect()->route('admin.dashboard');
+        }
+        if ($user->hasRole('petugas')) {
+            return redirect()->route('petugas.dashboard');
+        }
+        if ($user->hasRole('siswa')) {
+            return redirect()->route('siswa.dashboard');
+        }
+
+        $jam = now()->setTimezone('Asia/Jakarta')->hour;
+        $salam = $jam < 11 ? 'Selamat pagi' : ($jam < 15 ? 'Selamat siang' : ($jam < 18 ? 'Selamat sore' : 'Selamat malam'));
+
+        return view('dashboard', ['salam' => $salam]);
     }
 
     public function admin(): View
@@ -47,4 +63,5 @@ class DashboardController extends Controller
                 ->limit(3)
                 ->get(['bukus.judul', 'peminjamans.tanggal_pinjam', 'peminjamans.status']),
         ]);
-    }}
+    }
+}
