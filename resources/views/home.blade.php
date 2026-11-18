@@ -11,7 +11,7 @@
             <span class="badge">PERPUSTAKAAN DIGITAL</span>
 
             <h1>
-                Temukan Buku Favoritmu
+                Temukan Buku Favorit Kamu
             </h1>
 
             <p>
